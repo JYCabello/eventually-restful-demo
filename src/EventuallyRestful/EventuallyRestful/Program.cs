@@ -14,21 +14,12 @@ const string keycloakBaseUrl = "http://localhost:8080";
 var openIdConfigUrl = Environment.GetEnvironmentVariable("OPENID_CONFIG_URL")
                       ?? $"{keycloakBaseUrl}/realms/master/.well-known/openid-configuration";
 var sqlConnectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING")
-                          ?? "Server=localhost,1433;Database=master;User Id=sa;Password=yourStrong(!)Password;Encrypt=True;TrustServerCertificate=True";
+                          ??
+                          "Server=localhost,1433;Database=master;User Id=sa;Password=yourStrong(!)Password;Encrypt=True;TrustServerCertificate=True";
 var eventStoreConnectionString = Environment.GetEnvironmentVariable("EVENTSTORE_CONNECTION_STRING")
                                  ?? "esdb://admin:changeit@localhost:2113?tls=false";
 var adminSubjectId = Environment.GetEnvironmentVariable("ADMIN_SUBJECT_ID") ?? await GetAdminSubjectId();
 var blobConnectionString = Environment.GetEnvironmentVariable("BLOB_CONNECTION_STRING") ?? "UseDevelopmentStorage=true";
-
-/*
-Example of a JWT signing public key in PEM format:
------BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDdlatRjRjogo3WojgGHFHYLugd
-UWAY9iR3fy4arWNA1KoS8kVw33cJibXr8bvwUAUparCwlvdbH6dvEOfou0/gCFQs
-HUfQrSDv+MuSUMAe8jzKE4qW+jK+xQU9a03GUnKHkkle+Q0pX/g6jXZ7r1/xAK5D
-o2kQ+X5xK9cipRgEKwIDAQAB
------END PUBLIC KEY-----
-*/
 
 var app = await Generator.GetWebApp(
   null,
