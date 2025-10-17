@@ -9,7 +9,7 @@ public record SendGridContract(Personalization[] Personalizations, From From, st
   private static readonly JsonSerializerOptions JsonSerializerOptions =
     new() { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower };
 
-  public static async Task SendEmail(string email, string about, string name)
+  public static async Task SendEmail(string email, string about, string name, string templateId)
   {
     var apiKey = Environment.GetEnvironmentVariable("MY_SENDGRID_KEY")!;
 
@@ -17,7 +17,7 @@ public record SendGridContract(Personalization[] Personalizations, From From, st
       new SendGridContract(
         [new Personalization([new From(email, name)], new TemplateData(about, name))],
         new From("maestro@consistentlyeventful.com", "Yeray Cabello"),
-        "d-b5a7974b7c6e46799ddf810224b3fa9e"),
+        templateId),
       options: JsonSerializerOptions);
 
     var request = new HttpRequestMessage

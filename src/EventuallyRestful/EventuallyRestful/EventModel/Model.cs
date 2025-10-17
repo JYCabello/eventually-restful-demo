@@ -82,19 +82,20 @@ public record RequestEmailSend(string To, string RecipientName, string About) : 
 
 public record EmailSendTaskData(string To, string RecipientName, string About) : TodoData
 {
-  public static readonly TodoTaskDefinition Definition =
+  public static TodoTaskDefinition Definition(string templateId) =>
     new TodoTaskDefinition<EmailSendTaskData, EmailSendEntity, EmailSendRequested, EmailSendId>
     {
-      Action = async (data, entity, _, _, _) =>
+      Action = async (data, _, _, _, _) =>
       {
-        await SendGridContract.SendEmail(data.To, data.About, data.RecipientName);
+        await SendGridContract.SendEmail(data.To, data.About, data.RecipientName, templateId);
         return TodoOutcome.Done;
       },
       Originator = (requested, _, _) => new EmailSendTaskData(requested.To, requested.RecipientName, requested.About),
       SourcePrefix = EmailSendEntity.StreamPrefix,
-      Type = "send an email"
+      Type = $"send an email with template {templateId}"
     };
 }
+
 
 public static class Model
 {
@@ -117,7 +118,7 @@ public static class Model
           AreaTag = "Marketing"
         }
       ],
-      Tasks = [EmailSendTaskData.Definition]
+      Tasks = [EmailSendTaskData.Definition("d-b5a7974b7c6e46799ddf810224b3fa9e")]
     };
   }
 }
