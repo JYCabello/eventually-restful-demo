@@ -44,7 +44,7 @@ var app = await Generator.GetWebApp(
     None,
     new LoggingSettings
     {
-      LogsFolder = "logs",
+      LogsFolder = "logs"
     },
     "TestApiToolingApiKey"
   ),
